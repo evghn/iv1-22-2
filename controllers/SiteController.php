@@ -122,9 +122,6 @@ class SiteController extends Controller
     {
         $model = new RegisterForm();
         if ($model->load(Yii::$app->request->post())) {
-            // VarDumper::dump(Yii::$app->request->post(), 10, true);
-            // VarDumper::dump($model->attributes, 10, true);
-            // die;
             if ($model->register()) {
                 Yii::$app->session->setFlash('success', 'Вы успешно зарегистрировались');
 
@@ -133,8 +130,6 @@ class SiteController extends Controller
         }
         return $this->render('register', [
             'model' => $model,
-            'model2' => $model,
-
         ]);
     }
 

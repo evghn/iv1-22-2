@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 // VarDumper::dump($model2, 10, true);
 // die;
-Yii::debug($model2->attributes)
+
 ?>
 <div class="site-contact">
     <h1><?= Html::encode($this->title) ?></h1>

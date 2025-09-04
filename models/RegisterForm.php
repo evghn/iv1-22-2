@@ -54,6 +54,7 @@ class RegisterForm extends Model
             $user = new User();
             $user->load($this->attributes, '');
             $user->password = Yii::$app->security->generatePasswordHash($user->password);
+            $user->auth_key = Yii::$app->security->generateRandomString();
 
             if (!$user->save()) {
                 VarDumper::dump($user->errors, 10, true);
