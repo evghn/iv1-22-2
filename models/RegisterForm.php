@@ -20,11 +20,35 @@ class RegisterForm extends Model
      */
     public function rules()
     {
+        /*
+        Пользователю необходимо предоставить возможность ввести 
+        +уникальный логин
+        + (латиница и цифры, не менее 6 символов), 
+        
+        + пароль (минимум 8 символов), 
+        + ФИО (символы
+кириллицы и пробелы),
+         телефон (формат: 8(XXX)XXX-XX-XX), 
+        + адрес электронной почты        (формат: электронной почты)
+        */
         return [
             [['full_name', 'login', 'password', 'email', 'phone'], 'required'],
-
             [['full_name', 'login', 'password', 'email', 'phone'], 'string', 'max' => 255],
-            // [['login'], 'unique'],
+            [['password'], 'string', 'min' => 8],
+            [['login'], 'string', 'min' => 6],
+            [['email'], 'email'],
+            // ['login', 'match', 'pattern' => '/^[a-zA-Z0-9]+$/', 'message' => 'Логин должен содержать латиница и цифры, не менее 6 символов'],
+            ['login', 'match', 'pattern' => '/^[a-z\d]+$/i', 'message' => 'Логин должен содержать латиница и цифры, не менее 6 символов'],
+
+            // ['full_name', 'match', 'pattern' => '/^[а-яА-ЯёЁ\s]+$/u', 'message' => 'ФИО должно содержать символы кириллицы и пробелы'],
+            ['full_name', 'match', 'pattern' => '/^[а-яё\s]+$/iu', 'message' => 'ФИО должно содержать символы кириллицы и пробелы'],
+
+            // ['phone', 'match', 'pattern' => '/^8\([\d]{3}\)[\d]{3}\-[\d]{2}\-[\d]{2}$/', 'message' => 'телефон (формат: 8(XXX)XXX-XX-XX)'],
+            ['phone', 'match', 'pattern' => '/^8\([\d]{3}\)[\d]{3}(\-[\d]{2}){2}$/', 'message' => 'телефон (формат: 8(XXX)XXX-XX-XX)'],
+
+            [['login'], 'unique', 'targetClass' => User::class],
+
+
         ];
     }
 
@@ -48,7 +72,7 @@ class RegisterForm extends Model
      * @param string $email the target email address
      * @return bool whether the model passes validation
      */
-    public function register(): bool
+    public function register(): User | bool
     {
         if ($this->validate()) {
             $user = new User();
@@ -60,11 +84,7 @@ class RegisterForm extends Model
                 VarDumper::dump($user->errors, 10, true);
                 die;
             }
-
-
-
-            return true;
         }
-        return false;
+        return $user ?? false;
     }
 }

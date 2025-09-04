@@ -122,9 +122,9 @@ class SiteController extends Controller
     {
         $model = new RegisterForm();
         if ($model->load(Yii::$app->request->post())) {
-            if ($model->register()) {
+            if ($user = $model->register()) {
                 Yii::$app->session->setFlash('success', 'Вы успешно зарегистрировались');
-
+                Yii::$app->user->login($user, 3600 * 24 * 30);
                 return $this->goHome();
             }
         }

@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>Please fill out the following fields to login:</p>
 
     <div class="row">
-        <div class="col-lg-5">
+        <div class="col-lg-7">
 
             <?php $form = ActiveForm::begin([
                 'id' => 'login-form',
@@ -38,16 +38,17 @@ $this->params['breadcrumbs'][] = $this->title;
             ]) ?>
 
             <div class="form-group">
-                <div>
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                <div class="d-flex justify-content-between align-items-baseline">
+                    <?= Html::a('Еще не зарегистрированы? Регистрация', 'register', ['class' => 'd-flex align-self-baseline']) ?>
+                    <?= Html::submitButton('Вход', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
                 </div>
             </div>
 
             <?php ActiveForm::end(); ?>
 
             <div style="color:#999;">
-                You may login with <strong>admin/admin</strong> or <strong>demo/demo</strong>.<br>
-                To modify the username/password, please check out the code <code>app\models\User::$users</code>.
+                <strong>Admin/KorokNET</strong> or <strong>q/q</strong>.<br>
+
             </div>
 
         </div>

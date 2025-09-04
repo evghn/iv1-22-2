@@ -34,10 +34,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?= $form->field($model, 'login') ?>
 
-            <?= $form->field($model, 'password') ?>
+            <?= $form->field($model, 'password')->passwordInput() ?>
 
             <div class="form-group">
-                <?= Html::submitButton('Зарегистрироваться', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
+                <div class="d-flex justify-content-between align-items-baseline">
+                    <?= Html::a('Авторизация', 'login', ['class' => 'd-flex align-self-baseline']) ?>
+                    <?= Html::submitButton('Зарегистрироваться', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
+                </div>
             </div>
 
             <?php ActiveForm::end(); ?>
