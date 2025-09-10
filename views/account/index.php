@@ -1,7 +1,8 @@
 <?php
 
 use app\models\Application;
-use yii\helpers\Html;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\LinkPager;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
@@ -9,36 +10,56 @@ use yii\grid\GridView;
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Applications';
+$this->title = 'Личный кабинет';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="application-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3><?= Html::encode($this->title) ?></h3>
 
     <p>
-        <?= Html::a('Create Application', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать заявку', ['create'], ['class' => 'btn btn-outline-success']) ?>
     </p>
 
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'pager' => [
+            'class' => LinkPager::class,
+        ],
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
-            'date_start',
-            'user_id',
-            'course_id',
-            'pay_type_id',
-            //'status_id',
-            //'created_at',
             [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Application $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                'attribute' => 'created_at',
+                'value' => fn($model) => Yii::$app->formatter->asDatetime($model->created_at, 'php:d.m.Y H:i:s'),
             ],
+            [
+                'attribute' => 'date_start',
+                'value' => fn($model) => Yii::$app->formatter->asDate($model->date_start, 'php:d.m.Y'),
+            ],
+            [
+                'attribute' => 'user_id',
+                'value' => fn($model) => $model->user->full_name,
+            ],
+            [
+                'attribute' => 'course_id',
+                'value' => fn($model) => $model->course->title,
+            ],
+            [
+                'attribute' => 'pay_type_id',
+                'value' => fn($model) => $model->payType->title,
+            ],
+            [
+                'attribute' => 'status_id',
+                'value' => fn($model) => $model->status->title,
+            ],
+            [
+                'label' => 'Действие',
+                'format' => 'html',
+                // https://iv1-22-2/account/view?id=1
+                'value' => fn($model) => Html::a('Просмотр', ['view', 'id' => $model->id], ['class' => 'btn btn-outline-primary'])
+            ]
+
         ],
     ]); ?>
 

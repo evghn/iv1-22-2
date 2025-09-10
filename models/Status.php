@@ -56,4 +56,16 @@ class Status extends \yii\db\ActiveRecord
         return $this->hasMany(Application::class, ['status_id' => 'id']);
     }
 
+    // выбрать какой вариант удобнее
+    public static function getStausId(string $alias): int
+    {
+        return static::findOne(['alias' => $alias])->id;
+    }
+
+
+    // выбрать какой вариант удобнее
+    public static function getTitleStausId(string $title): int
+    {
+        return static::findOne(['title' => $title])->id;
+    }
 }
