@@ -71,13 +71,13 @@ class Account2Controller extends Controller
             'pagination' => [
                 'pageSize' => 5
             ],
-            /*
+
             'sort' => [
                 'defaultOrder' => [
                     'id' => SORT_DESC,
                 ]
             ],
-            */
+
         ]);
 
         return $this->render('index', [
