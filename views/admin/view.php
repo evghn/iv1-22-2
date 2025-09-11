@@ -17,10 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p class="d-flex gap-3 my-3">
         <?= Html::a('Назад', ['index'], ['class' => 'btn btn-outline-primary']) ?>
-        <?= !$model?->feedback
-            ? Html::a('Отзыв', ['feedback', 'id' => $model->id], ['class' => 'btn btn-outline-warning'])
-            : ''
-        ?>
+
     </p>
 
     <?= DetailView::widget([
@@ -30,6 +27,10 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'created_at',
                 'value' => Yii::$app->formatter->asDatetime($model->created_at, 'php:d.m.Y H:i:s'),
+            ],
+            [
+                'attribute' => 'user_id',
+                'value' => $model->user->full_name,
             ],
             [
                 'attribute' => 'date_start',
