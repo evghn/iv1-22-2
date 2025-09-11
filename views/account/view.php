@@ -36,10 +36,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => Yii::$app->formatter->asDate($model->date_start, 'php:d.m.Y'),
             ],
             [
-                'attribute' => 'user_id',
-                'value' => $model->user->full_name,
-            ],
-            [
                 'attribute' => 'course_id',
                 'value' => $model->course->title,
             ],
