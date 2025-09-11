@@ -117,6 +117,7 @@ class AccountController extends Controller
                 // $model->status_id = Status::getTitleStausId('Новая');
 
                 if ($model->save()) {
+                    Yii::$app->session->setFlash('success', 'Заявка успешно добавлена!');
                     return $this->redirect(['view', 'id' => $model->id]);
                 } else {
                     VarDumper::dump($model->attributes, 10, true);
@@ -149,6 +150,7 @@ class AccountController extends Controller
         $model->application_id = $id;
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Отзыв о курсе успешно добавлен!');
             return $this->redirect(['view', 'id' => $model->application_id]);
         }
 
