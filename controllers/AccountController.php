@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Application;
 use app\models\Course;
+use app\models\Feedback;
 use app\models\PayType;
 use app\models\Status;
 use Yii;
@@ -142,15 +143,16 @@ class AccountController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionFeedback($id)
     {
-        $model = $this->findModel($id);
+        $model = new Feedback();
+        $model->application_id = $id;
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->application_id]);
         }
 
-        return $this->render('update', [
+        return $this->render('feedback', [
             'model' => $model,
         ]);
     }

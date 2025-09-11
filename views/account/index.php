@@ -57,7 +57,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Действие',
                 'format' => 'html',
                 // https://iv1-22-2/account/view?id=1
-                'value' => fn($model) => Html::a('Просмотр', ['view', 'id' => $model->id], ['class' => 'btn btn-outline-primary'])
+                'value' => function ($model) {
+                    $btn_view = Html::a('Просмотр', ['view', 'id' => $model->id], ['class' => 'btn btn-outline-primary']);
+                    $btn_feedback = "";
+                    if ($model->status->alias === 'finaly' && !$model?->feedback) {
+                        $btn_feedback = Html::a('Отзыв', ['feedback', 'id' => $model->id], ['class' => 'btn btn-outline-warning']);
+                    }
+
+                    return "<div class='d-flex gap-3'>"
+                        . $btn_view
+                        . $btn_feedback
+                        . "</div>";
+                }
             ]
 
         ],

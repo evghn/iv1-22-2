@@ -48,7 +48,7 @@ class Feedback extends \yii\db\ActiveRecord
         return [
             'application_id' => 'Application ID',
             'created_at' => 'Created At',
-            'comment' => 'Comment',
+            'comment' => 'Отзыв',
         ];
     }
 
@@ -61,5 +61,4 @@ class Feedback extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Application::class, ['id' => 'application_id']);
     }
-
 }

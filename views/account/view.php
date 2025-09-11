@@ -15,15 +15,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h3><?= Html::encode($this->title) ?></h3>
 
-    <p>
+    <p class="d-flex gap-3 my-3">
         <?= Html::a('Назад', ['index'], ['class' => 'btn btn-outline-primary']) ?>
-        <!-- <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-                    'class' => 'btn btn-danger',
-                    'data' => [
-                        'confirm' => 'Are you sure you want to delete this item?',
-                        'method' => 'post',
-                    ],
-                ]) ?> -->
+        <?= !$model?->feedback
+            ? Html::a('Отзыв', ['feedback', 'id' => $model->id], ['class' => 'btn btn-outline-warning'])
+            : ''
+        ?>
     </p>
 
     <?= DetailView::widget([
@@ -54,6 +51,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'status_id',
                 'value' => $model->status->title,
             ],
+            [
+                'label' => 'Отзыв',
+                'visible' => (bool)$model?->feedback,
+                'format' => 'html',
+                'value' => $model?->feedback ? nl2br($model->feedback->comment) : '',
+
+            ]
 
         ],
     ]) ?>
