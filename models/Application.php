@@ -24,7 +24,12 @@ use Yii;
 class Application extends \yii\db\ActiveRecord
 {
 
-    public $time_order;
+    const SCENARIO_COURSE_LIST = 'list';
+    const SCENARIO_COURSE_TEXT = 'text';
+    const SCENARIO_MASTER = 'master';
+
+
+    public $check;
 
     /**
      * {@inheritdoc}
@@ -40,15 +45,23 @@ class Application extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['date_start', 'user_id', 'course_id', 'pay_type_id', 'status_id', 'time_order'], 'required'],
+            [['date_start', 'user_id', 'pay_type_id', 'status_id', 'time_order'], 'required'],
+            [['course_id'], 'required', 'on' => [self::SCENARIO_COURSE_LIST, self::SCENARIO_MASTER]],
+            [['master_id'], 'required', 'on' => [self::SCENARIO_MASTER]],
+
+            [['course_user'], 'required', 'on' => self::SCENARIO_COURSE_TEXT],
+
             [['date_start', 'created_at'], 'safe'],
-            [['user_id', 'course_id', 'pay_type_id', 'status_id'], 'integer'],
+            [['course_user'], 'string', 'max' => 255],
+            [['user_id', 'course_id', 'pay_type_id', 'status_id', 'master_id'], 'integer'],
             [['course_id'], 'exist', 'skipOnError' => true, 'targetClass' => Course::class, 'targetAttribute' => ['course_id' => 'id']],
             [['pay_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => PayType::class, 'targetAttribute' => ['pay_type_id' => 'id']],
             [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => Status::class, 'targetAttribute' => ['status_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
-            [['date_start'], 'date', 'min' => date('d.m.Y'), 'format' => 'dd.MM.yyyy'],
-            ['time_order', 'time', 'format' => 'php:H:i', 'min' => "09:00"]
+            // [['date_start'], 'date', 'min' => date('d.m.Y'), 'format' => 'dd.MM.yyyy'],
+            ['time_order', 'time', 'format' => 'php:H:i', 'min' => "09:00"],
+            [['check'], 'boolean'],
+            [['date_start'], 'validateMaster'],
 
             // 9 - 18
         ];
@@ -62,12 +75,31 @@ class Application extends \yii\db\ActiveRecord
         return [
             'id' => '№',
             'date_start' => 'Дата начала обучения',
+
             'user_id' => 'Клиент',
             'course_id' => 'Наименование курса',
             'pay_type_id' => 'Способ оплаты',
             'status_id' => 'Статус заявки',
             'created_at' => 'Дата создания заявки',
         ];
+    }
+
+
+    public function validateMaster($attribute, $params)
+    {
+        if (!$this->hasErrors()) {
+            $result = static::find()
+                ->where(
+                    'master_id = ' . $this->master_id
+                        . " and status_id <> " . Status::getStausId('final')
+                        . " and date_start = '{$this->date_start}'"
+                        . " and time_order = '{$this->time_order}:00'"
+                )
+                ->count();
+            if ($result) {
+                $this->addError('time_order', 'Мастер на эту дата-время занят!');
+            }
+        }
     }
 
     /**
@@ -118,5 +150,10 @@ class Application extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
+    public function getMaster()
+    {
+        return $this->hasOne(Master::class, ['id' => 'master_id']);
     }
 }

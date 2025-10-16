@@ -36,8 +36,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => Yii::$app->formatter->asDate($model->date_start, 'php:d.m.Y'),
             ],
             [
-                'attribute' => 'course_id',
-                'value' => $model->course->title,
+                // 'attribute' => 'course_id',
+                'label' => 'Выбраный курс',
+                'value' => empty($model->course_user) ? $model->course->title : $model->course_user,
+            ],
+            [
+                // 'attribute' => 'course_id',
+                'label' => 'Преподаватель',
+                'value' => !empty($model->master_id) ? $model->master->name : '',
+                'visible' => (bool)$model->master_id,
+
             ],
             [
                 'attribute' => 'pay_type_id',

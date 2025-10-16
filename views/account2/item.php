@@ -11,7 +11,8 @@ use yii\bootstrap5\Html;
             <span class="fw-bold">Дата начала обучения:</span> <?= Yii::$app->formatter->asDate($model->date_start, 'php:d.m.Y') ?>
         </div>
         <div>
-            <span class="fw-bold">Наименование курса:</span> <?= $model->course->title ?>
+
+            <span class="fw-bold">Наименование курса:</span> <?= empty($model->course_user) ? $model->course->title : $model->course_user ?>
         </div>
         <div>
             <span class="fw-bold">Способ оплаты:</span> <?= $model->payType->title ?>

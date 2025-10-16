@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\Application;
 use app\models\Course;
 use app\models\Feedback;
+use app\models\Master;
 use app\models\PayType;
 use app\models\Status;
 use Yii;
@@ -131,6 +132,81 @@ class Account2Controller extends Controller
         return $this->render('create', [
             'model' => $model,
             'courses' => $courses,
+            'payTypes' => $payTypes,
+
+        ]);
+    }
+
+    public function actionCreate2025()
+    {
+        $model = new Application(['scenario' => Application::SCENARIO_COURSE_LIST]);
+        $courses = Course::getCourses();
+        $payTypes = PayType::getPayTypes();
+
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post())) {
+                // VarDumper::dump($this->request->post(), 10, true);
+                // VarDumper::dump($model->attributes, 10, true);
+
+                if ($model->check) {
+                    $model->scenario = Application::SCENARIO_COURSE_TEXT;
+                }
+                $model->user_id = Yii::$app->user->id;
+                $model->status_id = Status::getStausId('new');
+                $model->status_id = Status::getTitleStausId('Новая');
+                if ($model->save()) {
+                    Yii::$app->session->setFlash('success', 'Заявка успешно добавлена!');
+                    return $this->redirect(['view', 'id' => $model->id]);
+                } else {
+                    VarDumper::dump($model->attributes, 10, true);
+                    VarDumper::dump($model->errors, 10, true);
+                    die;
+                }
+            }
+        } else {
+            $model->loadDefaultValues();
+        }
+
+        return $this->render('create2025', [
+            'model' => $model,
+            'courses' => $courses,
+            'payTypes' => $payTypes,
+
+        ]);
+    }
+
+
+    public function actionCreateMaster()
+    {
+        $model = new Application(['scenario' => Application::SCENARIO_MASTER]);
+        $courses = Course::getCourses();
+        $payTypes = PayType::getPayTypes();
+        $masters = Master::getMsaters();
+
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post())) {
+                // VarDumper::dump($this->request->post(), 10, true);
+                // VarDumper::dump($model->attributes, 10, true);
+                $model->user_id = Yii::$app->user->id;
+                $model->status_id = Status::getStausId('new');
+                $model->status_id = Status::getTitleStausId('Новая');
+                if ($model->save()) {
+                    Yii::$app->session->setFlash('success', 'Заявка успешно добавлена!');
+                    return $this->redirect(['view', 'id' => $model->id]);
+                } else {
+                    // VarDumper::dump($model->attributes, 10, true);
+                    // VarDumper::dump($model->errors, 10, true);
+                    // die;
+                }
+            }
+        } else {
+            $model->loadDefaultValues();
+        }
+
+        return $this->render('create-master', [
+            'model' => $model,
+            'courses' => $courses,
+            'masters' => $masters,
             'payTypes' => $payTypes,
 
         ]);

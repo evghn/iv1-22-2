@@ -19,6 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Создать заявку', ['create'], ['class' => 'btn btn-outline-success']) ?>
+        <?= Html::a('Создать заявку 2025', ['create2025'], ['class' => 'btn btn-outline-primary']) ?>
+        <?= Html::a('Создать заявку 2026 - master', ['create-master'], ['class' => 'btn btn-outline-primary']) ?>
     </p>
 
 

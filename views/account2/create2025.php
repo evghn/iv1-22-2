@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?= $this->render('@app/views/account/_form', [
+    <?= $this->render('_form2025', [
         'model' => $model,
         'courses' => $courses,
         'payTypes' => $payTypes,

@@ -22,16 +22,19 @@ use yii\web\JqueryAsset;
         <?/* $form->field($model, 'date_start', ['enableAjaxValidation' => true])->widget(\yii\widgets\MaskedInput::class, [
             'mask' => '99.99.9999',
         ]) */ ?>
-        <?= $form->field($model, 'time_order', ['enableAjaxValidation' => true])->textInput(['type' => 'time'/* , 'min' => '09:00', 'max' => '18:00' */]) ?>
+        <?= $form->field($model, 'time_order')->textInput(['type' => 'time'/* , 'min' => '09:00', 'max' => '18:00' */]) ?>
 
     </div>
 
     <div class="w-50">
         <?= $form->field($model, 'course_id')->dropDownList($courses, ['prompt' => 'Выберете курс']) ?>
-        <div class="alert alert-info alert-order d-none" role="alert">
-            Необходимо дополнительно установить сервер базы данных
-        </div>
+        <?= $form->field($model, 'check')->checkbox()->label('Другой курс') ?>
+
+        <?= $form->field($model, 'course_user', ['options' => ['class' => 'd-none course_user']])->textInput()->label('Свой курс') ?>
+
+
     </div>
+
 
     <div class="w-50">
         <?= $form->field($model, 'pay_type_id')->dropDownList($payTypes, ['prompt' => 'Выберете способ оплаты']) ?>
@@ -46,4 +49,4 @@ use yii\web\JqueryAsset;
 
 </div>
 <?php
-$this->registerJsFile("/js/order.js", ['depends' => JqueryAsset::class]);
+$this->registerJsFile("/js/order2025.js", ['depends' => JqueryAsset::class]);
