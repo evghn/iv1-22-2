@@ -8,6 +8,7 @@ use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 use yii\captcha\Captcha;
 use yii\helpers\VarDumper;
+use yii\web\JqueryAsset;
 
 $this->title = 'Регистрация';
 $this->params['breadcrumbs'][] = $this->title;
@@ -30,16 +31,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?= $form->field($model, 'email') ?>
 
-            <?= $form->field($model, 'phone') ?>
+            <!-- <?= $form->field($model, 'phone') ?> -->
+            <?= $form->field($model, 'phone')->widget(\yii\widgets\MaskedInput::class, [
+                'mask' => '8(999)999-99-99',
+            ]) ?>
 
-            <?= $form->field($model, 'login') ?>
+            <?= $form->field($model, 'login', ['enableAjaxValidation' => true]) ?>
 
             <?= $form->field($model, 'password')->passwordInput() ?>
-
+            <?= $form->field($model, 'password_repeat')->passwordInput() ?>
+            <?= $form->field($model, 'rule')->checkbox() ?>
             <div class="form-group">
                 <div class="d-flex justify-content-between align-items-baseline">
                     <?= Html::a('Авторизация', 'login', ['class' => 'd-flex align-self-baseline']) ?>
-                    <?= Html::submitButton('Зарегистрироваться', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
+                    <?= Html::submitButton('Зарегистрироваться', ['class' => 'btn btn-primary disabled btn-register', 'name' => 'contact-button']) ?>
                 </div>
             </div>
 
@@ -50,3 +55,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 </div>
+
+<?php
+$this->registerJsFile("/js/register.js", ['depends' => JqueryAsset::class]);
