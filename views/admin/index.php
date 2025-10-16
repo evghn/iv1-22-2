@@ -20,8 +20,19 @@ $this->params['breadcrumbs'][] = $this->title;
     <h3 class="my-3"><?= Html::encode($this->title) ?></h3>
 
     <?php Pjax::begin(); ?>
-    <? # $this->render('_search', ['model' => $searchModel]); 
-    ?>
+    <div class="d-flex justify-content-between align-items-end mb-3 flex-wrap">
+        <div class="mb-3 d-flex justify-content-between align-items-end flex-wrap gap-2">
+            Сортировка:
+            <?= $dataProvider->sort->link('id')
+                . ' | '
+                . $dataProvider->sort->link('created_at')
+                . ' | '
+                . $dataProvider->sort->link('date_start')
+            ?>
+        </div>
+        <?= $this->render('_search', ['model' => $searchModel]);
+        ?>
+    </div>
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
         'pager' => [

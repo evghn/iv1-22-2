@@ -24,6 +24,7 @@ use Yii;
 class Application extends \yii\db\ActiveRecord
 {
 
+    public $time_order;
 
     /**
      * {@inheritdoc}
@@ -39,13 +40,17 @@ class Application extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['date_start', 'user_id', 'course_id', 'pay_type_id', 'status_id'], 'required'],
+            [['date_start', 'user_id', 'course_id', 'pay_type_id', 'status_id', 'time_order'], 'required'],
             [['date_start', 'created_at'], 'safe'],
             [['user_id', 'course_id', 'pay_type_id', 'status_id'], 'integer'],
             [['course_id'], 'exist', 'skipOnError' => true, 'targetClass' => Course::class, 'targetAttribute' => ['course_id' => 'id']],
             [['pay_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => PayType::class, 'targetAttribute' => ['pay_type_id' => 'id']],
             [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => Status::class, 'targetAttribute' => ['status_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
+            [['date_start'], 'date', 'min' => date('d.m.Y'), 'format' => 'dd.MM.yyyy'],
+            ['time_order', 'time', 'format' => 'php:H:i', 'min' => "09:00"]
+
+            // 9 - 18
         ];
     }
 

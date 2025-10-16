@@ -10,6 +10,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\RegisterForm;
+use yii\bootstrap5\ActiveForm;
 use yii\helpers\VarDumper;
 
 class SiteController extends Controller
@@ -105,7 +106,18 @@ class SiteController extends Controller
     public function actionRegister()
     {
         $model = new RegisterForm();
+
+        // if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+        //     Yii::$app->response->format = Response::FORMAT_JSON;
+        //     return ActiveForm::validate($model);
+        // }
+
         if ($model->load(Yii::$app->request->post())) {
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ActiveForm::validate($model);
+            }
+
             if ($user = $model->register()) {
                 Yii::$app->session->setFlash('success', 'Вы успешно зарегистрировались!');
                 Yii::$app->user->login($user, 3600 * 24 * 30);
@@ -115,5 +127,10 @@ class SiteController extends Controller
         return $this->render('register', [
             'model' => $model,
         ]);
+    }
+
+    public function actionTest()
+    {
+        return $this->render('test');
     }
 }

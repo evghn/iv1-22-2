@@ -8,11 +8,13 @@ use app\models\Feedback;
 use app\models\PayType;
 use app\models\Status;
 use Yii;
+use yii\bootstrap5\ActiveForm;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\VarDumper;
+use yii\web\Response;
 
 /**
  * AccountController implements the CRUD actions for Application model.
@@ -111,19 +113,23 @@ class AccountController extends Controller
         $payTypes = PayType::getPayTypes();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
-                $model->user_id = Yii::$app->user->id;
-                $model->status_id = Status::getStausId('new');
-                // $model->status_id = Status::getTitleStausId('Новая');
+            if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ActiveForm::validate($model);
+            }
 
-                if ($model->save()) {
+            $model->user_id = Yii::$app->user->id;
+            $model->status_id = Status::getStausId('new');
+            if ($model->load($this->request->post()) && $model->validate()) {
+                $model->date_start = date_format(date_create($model->date_start), 'Y-m-d');
+
+                if ($model->save(false)) {
                     Yii::$app->session->setFlash('success', 'Заявка успешно добавлена!');
                     return $this->redirect(['view', 'id' => $model->id]);
-                } else {
-                    VarDumper::dump($model->attributes, 10, true);
-                    VarDumper::dump($model->errors, 10, true);
-                    die;
                 }
+            } else {
+                VarDumper::dump($model->errors, 10, true);
+                die;
             }
         } else {
             $model->loadDefaultValues();

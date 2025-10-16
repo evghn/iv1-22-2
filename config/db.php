@@ -3,7 +3,7 @@
 return [
     'class' => 'yii\db\Connection',
     // только для OSPanel 6.x
-    'dsn' => 'mysql:host=MariaDB-11.2;dbname=iv1_22_2',
+    'dsn' => 'mysql:host=MySQL-8.4;dbname=iv1_22_2',
     // 'dsn' => 'mysql:host=localhost;dbname=iv1_22_2',
     'username' => 'root',
     'password' => '',
