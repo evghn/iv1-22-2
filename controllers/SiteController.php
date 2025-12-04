@@ -133,4 +133,11 @@ class SiteController extends Controller
     {
         return $this->render('test');
     }
+
+
+
+    public function actionGetFlash()
+    {
+        return $this->asJson(Yii::$app->session->getFlash("toast", false));
+    }
 }

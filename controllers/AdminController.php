@@ -88,17 +88,32 @@ class AdminController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost) {
+        if ($model) {
             $model->status_id = Status::getStausId('todo');
-            if ($model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            } else {
+            if (!$model->save(false)) {
                 VarDumper::dump($model->errors, 10, true);
                 die;
             }
+
+            Yii::$app->session->setFlash("toast", ["status" => "info", "text" => "Статус заявки №$model->id изменен на " . Status::getStatuses()[$model->status_id]]);
         }
 
-        return $this->redirect('/admin');
+        return $this->actionIndex();
+    }
+
+
+    public function actionReset($id)
+    {
+        $model = $this->findModel($id);
+
+
+        $model->status_id = Status::getStausId('new');
+        if ($model->save(false)) {
+            return $this->actionIndex();
+        } else {
+            VarDumper::dump($model->errors, 10, true);
+            die;
+        }
     }
 
 
@@ -106,17 +121,18 @@ class AdminController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost) {
+        if ($model) {
             $model->status_id = Status::getStausId('finally');
-            if ($model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            } else {
+
+            if (!$model->save(false)) {
                 VarDumper::dump($model->errors, 10, true);
                 die;
             }
+
+            Yii::$app->session->setFlash("toast", ["status" => "success", "text" => "Статус заявки №$model->id изменен на " . Status::getStatuses()[$model->status_id]]);
         }
 
-        return $this->redirect('/admin');
+        return $this->actionIndex();
     }
 
 
@@ -124,17 +140,18 @@ class AdminController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost) {
+        if ($model) {
             $model->status_id = Status::getStausId($status);
-            if ($model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            } else {
+
+            if (!$model->save(false)) {
                 VarDumper::dump($model->errors, 10, true);
                 die;
             }
+
+            Yii::$app->session->setFlash("toast", ["status" => "info", "text" => "Статус заявки №$model->id изменен на " . Status::getStatuses()[$model->status_id]]);
         }
 
-        return $this->redirect('/admin');
+        return $this->actionIndex();
     }
 
     /**

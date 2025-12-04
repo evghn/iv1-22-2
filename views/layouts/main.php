@@ -79,7 +79,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         ?>
     </header>
 
-    <main id="main" class="flex-shrink-0" role="main">
+    <main id="main" class="flex-shrink-0 flex-grow-1" role="main">
         <div class="container">
             <?php if (!empty($this->params['breadcrumbs'])): ?>
                 <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
@@ -87,6 +87,11 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
             <?= Alert::widget() ?>
             <?= $content ?>
         </div>
+
+        <div aria-live="polite" aria-atomic="true" class="fixed-top">
+            <div class="toast-container p-3 top-0 end-0">
+
+            </div>
     </main>
 
     <footer id="footer" class="mt-auto py-3 bg-light">

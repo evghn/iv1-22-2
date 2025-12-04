@@ -26,15 +26,17 @@ use yii\bootstrap5\Html;
     <div class='d-flex gap-3 m-3 justify-content-end'>
 
         <?= $model->status->alias !== 'finally'
-            ? Html::a('Обучение завершено', ['finally', 'id' => $model->id], ['class' => 'btn btn-outline-warning', 'data-method' => 'post'])
-            . Html::a('Обучение завершено 2', ['change-status', 'id' => $model->id, 'status' => 'finally'], ['class' => 'btn btn-outline-info', 'data-method' => 'post'])
+            ? Html::a('Обучение завершено', ['finally', 'id' => $model->id], ['class' => 'btn btn-outline-warning'/* , 'data-method' => 'post' */])
+            . Html::a('Обучение завершено 2', ['change-status', 'id' => $model->id, 'status' => 'finally'], ['class' => 'btn btn-outline-info'/* , 'data-method' => 'post' */])
             : ''
         ?>
         <?= $model->status->alias !== 'todo' && $model->status->alias !== 'finally'
-            ? Html::a('Идет обучение', ['todo', 'id' => $model->id], ['class' => 'btn btn-outline-info', 'data-method' => 'post'])
-            . Html::a('Идет обучение 2', ['change-status', 'id' => $model->id, 'status' => 'todo'], ['class' => 'btn btn-outline-info', 'data-method' => 'post'])
+            ? Html::a('Идет обучение', ['todo', 'id' => $model->id], ['class' => 'btn btn-outline-info'/* , 'data-method' => 'post' */])
+            . Html::a('Идет обучение 2', ['change-status', 'id' => $model->id, 'status' => 'todo'], ['class' => 'btn btn-outline-info'/* , 'data-method' => 'post' */])
             : ''
         ?>
         <?= Html::a('Просмотр', ['view', 'id' => $model->id], ['class' => 'btn btn-outline-primary']) ?>
+        <?= Html::a('Сброс', ['reset', 'id' => $model->id], ['class' => 'btn btn-outline-secondary']) ?>
+
     </div>
 </div>

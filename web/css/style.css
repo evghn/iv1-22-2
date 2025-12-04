@@ -1,0 +1,11 @@
+.bg-info-toast {
+  background-color: rgb(152, 231, 247);
+}
+
+.bg-success-toast {
+  background-color: rgb(108, 248, 108);
+}
+
+.bg-success-head {
+  color: white;
+}

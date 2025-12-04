@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'course_id',
-                'value' => $model->course->title,
+                'value' => $model->course_id ? $model->course->title : $model->course_user,
             ],
             [
                 'attribute' => 'pay_type_id',
