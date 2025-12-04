@@ -61,7 +61,7 @@ class Application extends \yii\db\ActiveRecord
             // [['date_start'], 'date', 'min' => date('d.m.Y'), 'format' => 'dd.MM.yyyy'],
             ['time_order', 'time', 'format' => 'php:H:i', 'min' => "09:00"],
             [['check'], 'boolean'],
-            [['date_start'], 'validateMaster'],
+            [['date_start'], 'validateMaster', 'on' => [self::SCENARIO_MASTER]],
 
             // 9 - 18
         ];
@@ -81,6 +81,7 @@ class Application extends \yii\db\ActiveRecord
             'pay_type_id' => 'Способ оплаты',
             'status_id' => 'Статус заявки',
             'created_at' => 'Дата создания заявки',
+            'course_user' => 'Свой курс',
         ];
     }
 
@@ -95,7 +96,11 @@ class Application extends \yii\db\ActiveRecord
                         . " and date_start = '{$this->date_start}'"
                         . " and time_order = '{$this->time_order}:00'"
                 )
-                ->count();
+                // ->count()
+                ->createCommand()
+                ->rawSql;
+            var_dump($result);
+            die;
             if ($result) {
                 $this->addError('time_order', 'Мастер на эту дата-время занят!');
             }
