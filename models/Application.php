@@ -59,7 +59,7 @@ class Application extends \yii\db\ActiveRecord
             [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => Status::class, 'targetAttribute' => ['status_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
             // [['date_start'], 'date', 'min' => date('d.m.Y'), 'format' => 'dd.MM.yyyy'],
-            ['time_order', 'time', 'format' => 'php:H:i', 'min' => "09:00"],
+            ['time_order', 'time', 'format' => 'php:H:i', 'min' => "09:00", "message" => "Время должно быть с часовым интервалом"],
             [['check'], 'boolean'],
             [['date_start'], 'validateMaster', 'on' => [self::SCENARIO_MASTER]],
 

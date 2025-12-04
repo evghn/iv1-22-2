@@ -5,6 +5,7 @@ namespace app\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Application;
+use yii\helpers\VarDumper;
 
 /**
  * ApplicationSearch represents the model behind the search form of `app\models\Application`.
@@ -62,11 +63,22 @@ class ApplicationSearch extends Application
             'id' => $this->id,
             'date_start' => $this->date_start,
             'user_id' => $this->user_id,
-            'course_id' => $this->course_id,
             'pay_type_id' => $this->pay_type_id,
             'status_id' => $this->status_id,
             'created_at' => $this->created_at,
         ]);
+        // VarDumper::dump($this->attributes, 10, true);
+        // die;
+
+        if ($this->course_id != "") {
+            if ($this->course_id != '100') {
+                $query->andFilterWhere([
+                    'course_id' => $this->course_id,
+                ]);
+            } else {
+                $query->andWhere(['course_id' => null]);
+            }
+        }
 
         return $dataProvider;
     }

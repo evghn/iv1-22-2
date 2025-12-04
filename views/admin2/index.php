@@ -16,6 +16,7 @@ use yii\widgets\Pjax;
 
 $this->title = 'Панель администратора';
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="application-index">
 
@@ -51,8 +52,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'course_id',
-                'value' => fn($model) => $model->course->title,
-                'filter' => Course::getCourses(),
+                'value' => fn($model) => $model->course_id ? $model->course->title : $model->course_user,
+                'filter' => Course::getCourses() + [100 => "Другой вариант"],
             ],
             [
                 'attribute' => 'pay_type_id',

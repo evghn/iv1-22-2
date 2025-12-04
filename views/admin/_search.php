@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Course;
 use app\models\PayType;
 use app\models\Status;
 use yii\bootstrap5\Html;
@@ -22,7 +23,7 @@ use yii\bootstrap5\ActiveForm;
     <div class="d-flex justify-content-between align-items-end gap-3 flex-wrap">
 
         <?php echo $form->field($model, 'pay_type_id')->dropDownList(PayType::getPayTypes(), ['prompt' => 'Вид оплаты']) ?>
-        <?php echo $form->field($model, 'status_id')->dropDownList(Status::getStatuses(), ['prompt' => 'Статус заказа']) ?>
+        <?php echo $form->field($model, 'course_id')->dropDownList(Course::getCourses() + [100 => "Другой вариант"], ['prompt' => 'Вид курса']) ?>
 
 
 

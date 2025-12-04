@@ -70,11 +70,21 @@ class AdminSearch extends Application
             'id' => $this->id,
             'date_start' => $this->date_start,
             'user_id' => $this->user_id,
-            'course_id' => $this->course_id,
             'pay_type_id' => $this->pay_type_id,
             'status_id' => $this->status_id,
             'created_at' => $this->created_at,
         ]);
+
+        if ($this->course_id != "") {
+            if ($this->course_id != '100') {
+                $query->andFilterWhere([
+                    'course_id' => $this->course_id,
+                ]);
+            } else {
+                $query->andWhere(['course_id' => null]);
+            }
+        }
+
 
         return $dataProvider;
     }
